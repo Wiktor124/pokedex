@@ -1,9 +1,11 @@
 module.exports = {
   env: {
     browser: true,
+    commonjs: true,
+    module: true,
     es2021: true,
   },
-  extends: ['eslint:recommended', 'eslint-config-prettier'],
+  extends: 'eslint:recommended',
   overrides: [
     {
       env: {
@@ -17,7 +19,6 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: 'latest',
-    sourceType: 'module',
   },
   rules: {},
 };
