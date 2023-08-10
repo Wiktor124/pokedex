@@ -15,26 +15,33 @@
   </head>
 
   <body>
-    <form id="pokemonForm">
+    <form id="pokemonForm" enctype="multipart/form-data">
       <div>
         <label for="nombre">Nombre:</label>
-        <input type="text" name="nombre" id="nombre" required />
+        <input type="text" name="nombre" id="nombre" autocomplete="off" required />
       </div>
       <div>
         <label for="tipo">Tipo:</label>
-        <input type="text" name="tipo" id="tipo" required />
+        <input type="text" name="tipo" id="tipo" autocomplete="off" required />
       </div>
       <div>
         <label for="descripcion">Descripción:</label>
-        <input type="text" name="descripcion" id="descripcion" required />
+        <input type="text" name="descripcion" id="descripcion" autocomplete="off" required />
       </div>
       <div>
         <label for="evolucion">Evolución:</label>
-        <input type="text" name="evolucion" id="evolucion" required />
+        <input type="text" name="evolucion" id="evolucion" autocomplete="off" required />
       </div>
       <div>
         <label for="debilidades">Debilidades:</label>
-        <input type="text" name="debilidades" id="debilidades" required />
+        <input type="text" name="debilidades" id="debilidades" autocomplete="off" required />
+      </div>
+      <div>
+        <label for="imagen">Imagen:</label>
+        <input type="file" name="imagen" id="imagen" accept="image/*" required />
+      </div>
+      <div>
+        <button type="submit">Agregar Pokémon!</button>
       </div>
     </form>
   </body>

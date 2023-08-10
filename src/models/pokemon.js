@@ -6,8 +6,9 @@ const pokemon = new mongoose.Schema({
   descripcion: String,
   evolucion: String,
   debilidades: String,
+  imagen: String,
 });
 
 const Pokemons = mongoose.model('pokemons', pokemon);
 
-module.exports = { Pokemons };
+module.exports = Pokemons;

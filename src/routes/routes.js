@@ -1,8 +1,15 @@
-const { PokemonsController } = require('../controllers/pokemons.controller');
-const Router = require('express');
-const routes = Router();
+const PokemonsController = require('../controllers/pokemons.controller');
+const express = require('express');
+const routes = express.Router();
 
-// routes.get('/', PokemonsController.getPokemon)
-routes.post('/create', PokemonsController.createPokemon);
+const pokeRoutes = express();
 
-module.exports = { routes };
+routes.get('/', PokemonsController.getPokemons);
+routes.get('/:id', PokemonsController.getPokemonById);
+routes.post('/', PokemonsController.createPokemon);
+routes.put('/:id', PokemonsController.updatePokemon);
+routes.delete('/:id', PokemonsController.deletePokemon);
+
+pokeRoutes.use('/pokemon/', routes)
+
+module.exports = pokeRoutes;
