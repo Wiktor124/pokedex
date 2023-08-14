@@ -22,10 +22,21 @@ img {
   width: 100%;
 }
 
-.container {
+.main-container {
   max-width: 1270px;
   width: 80%;
-  margin: 0 auto;
+  margin: 50px auto;
+
+  display: grid;
+  grid-template-columns: 0.5fr 1fr;
+  gap: 50px;
+}
+
+.edit {
+  // display: inline-block;
+  border: 1px solid #ccc;
+  padding: 5px;
+  cursor: pointer;
 }
 
 .sr-only {

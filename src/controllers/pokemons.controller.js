@@ -1,12 +1,10 @@
 const Pokemons = require('../models/pokemon');
-
+const upload = require('../utils/upload-images');
 
 const PokemonsController = {
 
   getPokemons: async (req, res) => {
     const pokemons = await Pokemons.find();
-
-    console.log(pokemons);
     res.send(pokemons)
   },
   getPokemonById: async (req, res) => {
@@ -23,17 +21,15 @@ const PokemonsController = {
       res.status(500).json({ error: 'Error al obtener el pokemon por ID' });
     }
   },
-  createPokemon: async (req, res) => {
+  createPokemon: (upload.single('imagen'), async (req, res) => {
     try {
       const newPokemon = await Pokemons.create(req.body);
 
-
-      console.log(req.body)
       res.status(201).json(newPokemon);
     } catch (err) {
       res.status(500).json({ error: 'Error al crear un pokemon' });
     }
-  },
+  }),
   updatePokemon: async (req, res) => {
     try {
       const pokemonId = req.params.id;

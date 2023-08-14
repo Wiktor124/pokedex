@@ -1,4 +1,4 @@
-const { MONGO_URI } = require('../../config');
+const { MONGO_URI } = require('../config');
 const mongoose = require('mongoose');
 
 function connetToMongoDB() {

@@ -4,6 +4,7 @@ const routes = express.Router();
 
 const pokeRoutes = express();
 
+
 routes.get('/', PokemonsController.getPokemons);
 routes.get('/:id', PokemonsController.getPokemonById);
 routes.post('/', PokemonsController.createPokemon);
