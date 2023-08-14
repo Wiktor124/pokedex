@@ -11,6 +11,6 @@ routes.post('/', upload.single('imagen'), PokemonsController.createPokemon);
 routes.put('/:id', PokemonsController.updatePokemon);
 routes.delete('/:id', PokemonsController.deletePokemon);
 
-pokeRoutes.use('/pokemon/', routes)
+pokeRoutes.use('/pokemon/', routes);
 
 module.exports = pokeRoutes;

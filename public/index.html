@@ -19,7 +19,13 @@
   <body>
     <main class="main-container">
       <app-pokeform></app-pokeform>
-      <ul id="pokemons" class="list-group list-group-flush"></ul>
+      <div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="searchIcon"></span>
+          <input type="search" name="" id="search">
+        </div>
+        <ul id="pokemons" class="list-group list-group-flush"></ul>
+      </div>
     </main>
 
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

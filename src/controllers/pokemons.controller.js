@@ -4,7 +4,7 @@ const { PORT } = require('../config');
 const PokemonsController = {
   getPokemons: async (req, res) => {
     const pokemons = await Pokemons.find();
-    res.send(pokemons)
+    res.send(pokemons);
   },
   getPokemonById: async (req, res) => {
     try {
@@ -22,7 +22,6 @@ const PokemonsController = {
   },
   createPokemon: async (req, res) => {
     try {
-
       if (req.file) {
         req.body.imagen = `http://localhost:${PORT}/public/${req.file.filename}`;
       }
@@ -30,7 +29,7 @@ const PokemonsController = {
 
       const newPokemon = await Pokemons.create(req.body);
 
-      res.status(201).redirect('/')
+      res.status(201).redirect('/');
     } catch (err) {
       res.status(500).json({ error: 'Error al crear un pokemon' });
     }
@@ -38,7 +37,11 @@ const PokemonsController = {
   updatePokemon: async (req, res) => {
     try {
       const pokemonId = req.params.id;
-      const updatedPokemon = await Pokemons.findByIdAndUpdate(pokemonId, req.body, { new: true });
+      const updatedPokemon = await Pokemons.findByIdAndUpdate(
+        pokemonId,
+        req.body,
+        { new: true },
+      );
 
       if (!updatedPokemon) {
         return res.status(404).json({ error: 'Pokemon no encontrado' });
@@ -62,7 +65,7 @@ const PokemonsController = {
     } catch (err) {
       res.status(500).json({ error: 'Error al eliminar el pokemon por ID' });
     }
-  }
+  },
 };
 
 module.exports = PokemonsController;
