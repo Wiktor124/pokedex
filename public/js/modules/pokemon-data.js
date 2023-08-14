@@ -1,19 +1,11 @@
 import modalCard from "../components/modal-content.js";
 import renderPokeCard from "../components/poke-card.js";
-import { getPokemons, createPokemon, deletePokemon, updatePokemon, getPokemonById } from "../service/pokeData.js";
+import { getPokemons, deletePokemon, updatePokemon, getPokemonById } from "../service/pokeData.js";
 
 const pokeForm = document.querySelector('#pokemonForm');
-const pokeUL = document.querySelector('#pokemons');
 
 async function handlePokeForm(e) {
-  e.preventDefault()
 
-  const formData = pokeForm.querySelectorAll('input[type="text"], input[type="file"]');
-  const data = {};
-
-  formData.forEach(item => data[item.name] = item.value);
-
-  await createPokemon(data);
   renderPokeCard(await getPokemons())
 }
 
@@ -45,11 +37,26 @@ async function handleEditPokeContent(e) {
 
 }
 
+function handleSeach(e) {
+  let texto = new RegExp(e.target.value, 'i');
+
+  document.querySelectorAll('.card__producto').forEach(producto => {
+
+    if (texto.test(producto.innerText)) {
+      producto.classList.remove('filtrar')
+    } else {
+      producto.classList.add('filtrar')
+    }
+
+  })
+}
+
 async function initApp() {
   renderPokeCard(await getPokemons())
   pokeForm.addEventListener('submit', handlePokeForm);
-  pokeUL.addEventListener('click', handleClick);
+  document.querySelector('#pokemons').addEventListener('click', handleClick);
   document.querySelector('#update').addEventListener('click', handleEditPokeContent)
+  document.querySelector('#buscador').addEventListener('keyup', handleSeach)
 }
 
 export default initApp;

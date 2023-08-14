@@ -1,7 +1,8 @@
 class PokeForm extends HTMLElement {
+
   connectedCallback() {
     this.innerHTML = `
-    <form id="pokemonForm" class="pokemon-form" action="POST" enctype="multipart/form-data">
+    <form id="pokemonForm" class="pokemon-form" action="/pokemon" method="POST" enctype="multipart/form-data" >
       <h1>Agrega un pokemon</h1>
       <div class="mb-3 ">
         <label class="formt-label" for="nombre">Nombre:</label>
@@ -25,7 +26,7 @@ class PokeForm extends HTMLElement {
       </div>
       <div class="pokemon-form__field">
         <label class="formt-label" for="imagen">Imagen:</label>
-        <input class="form-control" type="file" name="imagen" id="imagen" required />
+        <input class="form-control" type="file" name="imagen" id="imagen" accept="image/*" required />
       </div>
       <div class="pokemon-form__field">
         <button class="btn btn-primary" type="submit">Agregar Pokémon!</button>
