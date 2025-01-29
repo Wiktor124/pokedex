@@ -35,15 +35,16 @@
         let prevPos = null;
         let prevTime = null;
         let isKm = true;
+        let speed = 0; // Initialize speed
 
         function toggleUnit() {
             isKm = !isKm;
             document.querySelector('.unit').textContent = isKm ? ' km/h' : ' mph';
+            updateSpeedDisplay(); // Update display with current unit
         }
 
         function calculateSpeed(position) {
             if (prevPos && prevTime) {
-                // Calcular distancia usando fórmula Haversine
                 const R = 6371; // Radio de la Tierra en km
                 const dLat = (position.coords.latitude - prevPos.latitude) * Math.PI / 180;
                 const dLon = (position.coords.longitude - prevPos.longitude) * Math.PI / 180;
@@ -55,32 +56,29 @@
                 const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
                 const distance = R * c; // En kilómetros
 
-                // Calcular tiempo transcurrido en horas
                 const timeDiff = (position.timestamp - prevTime) / 1000 / 3600;
-                
-                // Calcular velocidad
-                let speed = distance / timeDiff;
-                
-                // Convertir a mph si es necesario
-                if (!isKm) speed *= 0.621371;
-
-                document.getElementById('speed').textContent = speed.toFixed(1);
+                speed = distance / timeDiff; 
             }
-            
+
             prevPos = {
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude
             };
             prevTime = position.timestamp;
+
+            updateSpeedDisplay(); // Update display immediately
+        }
+
+        function updateSpeedDisplay() {
+            let displaySpeed = speed;
+            if (!isKm) displaySpeed *= 0.621371;
+            document.getElementById('speed').textContent = displaySpeed.toFixed(1);
         }
 
         function startTracking() {
             if (navigator.geolocation) {
                 watchId = navigator.geolocation.watchPosition(
-                    (position) => {
-                        document.getElementById('status').textContent = "Monitoreando velocidad...";
-                        calculateSpeed(position);
-                    },
+                    calculateSpeed, // Pass calculateSpeed directly
                     (error) => {
                         document.getElementById('status').textContent = "Error: " + error.message;
                     },
@@ -94,7 +92,6 @@
             }
         }
 
-        // Iniciar el seguimiento cuando se carga la página
         startTracking();
     </script>
 </body>
