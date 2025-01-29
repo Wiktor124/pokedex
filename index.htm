@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Medidor de Velocidad</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        #speed {
+            font-size: 4em;
+            margin: 20px;
+            color: #2c3e50;
+        }
+        .unit {
+            font-size: 0.5em;
+            color: #7f8c8d;
+        }
+        #status {
+            color: #7f8c8d;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Medidor de Velocidad</h1>
+    <div id="speed">0<span class="unit"> km/h</span></div>
+    <div id="status">Obteniendo ubicación...</div>
+    <button onclick="toggleUnit()">Cambiar a mph</button>
+
+    <script>
+        let watchId = null;
+        let prevPos = null;
+        let prevTime = null;
+        let isKm = true;
+
+        function toggleUnit() {
+            isKm = !isKm;
+            document.querySelector('.unit').textContent = isKm ? ' km/h' : ' mph';
+        }
+
+        function calculateSpeed(position) {
+            if (prevPos && prevTime) {
+                // Calcular distancia usando fórmula Haversine
+                const R = 6371; // Radio de la Tierra en km
+                const dLat = (position.coords.latitude - prevPos.latitude) * Math.PI / 180;
+                const dLon = (position.coords.longitude - prevPos.longitude) * Math.PI / 180;
+                const a = 
+                    Math.sin(dLat/2) * Math.sin(dLat/2) +
+                    Math.cos(prevPos.latitude * Math.PI / 180) * 
+                    Math.cos(position.coords.latitude * Math.PI / 180) *
+                    Math.sin(dLon/2) * Math.sin(dLon/2);
+                const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+                const distance = R * c; // En kilómetros
+
+                // Calcular tiempo transcurrido en horas
+                const timeDiff = (position.timestamp - prevTime) / 1000 / 3600;
+                
+                // Calcular velocidad
+                let speed = distance / timeDiff;
+                
+                // Convertir a mph si es necesario
+                if (!isKm) speed *= 0.621371;
+
+                document.getElementById('speed').textContent = speed.toFixed(1);
+            }
+            
+            prevPos = {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+            };
+            prevTime = position.timestamp;
+        }
+
+        function startTracking() {
+            if (navigator.geolocation) {
+                watchId = navigator.geolocation.watchPosition(
+                    (position) => {
+                        document.getElementById('status').textContent = "Monitoreando velocidad...";
+                        calculateSpeed(position);
+                    },
+                    (error) => {
+                        document.getElementById('status').textContent = "Error: " + error.message;
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        maximumAge: 0
+                    }
+                );
+            } else {
+                document.getElementById('status').textContent = "La geolocalización no es soportada por este navegador";
+            }
+        }
+
+        // Iniciar el seguimiento cuando se carga la página
+        startTracking();
+    </script>
+</body>
+</html>
